@@ -1,0 +1,124 @@
+<!DOCTYPE html><html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>حكايات نور - NOUREBRAHIMNOURELDEEN</title>
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(to bottom, #fdf6f0, #e0eaff);
+      color: #1c1c1c;
+      margin: 0;
+      padding: 0;
+      line-height: 1.8;
+    }
+    header {
+      background: linear-gradient(to right, #b388eb, #8093f1);
+      padding: 40px;
+      text-align: center;
+      color: white;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 36px;
+    }
+    .section {
+      padding: 40px 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+    h2 {
+      color: #6a00ff;
+      border-bottom: 2px solid #d1c4e9;
+      padding-bottom: 5px;
+    }
+    .form-section {
+      background-color: #ffffffdd;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, textarea, select, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    button {
+      background-color: #6a00ff;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .story {
+      background-color: #fff;
+      padding: 20px;
+      margin-top: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .story img {
+      max-width: 100%;
+      margin-top: 15px;
+      border-radius: 8px;
+    }
+    footer {
+      background-color: #6a00ff;
+      color: white;
+      text-align: center;
+      padding: 30px;
+      margin-top: 60px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>حكايات نور - NOUREBRAHIMNOURELDEEN</h1>
+    <p>قصص رعب، كوميديا، رومانسية، وأكثر... من خيال نور</p>
+  </header>  <div class="section">
+    <h2>✍️ أضف قصة جديدة</h2>
+    <div class="form-section">
+      <input type="text" id="title" placeholder="عنوان القصة">
+      <select id="category">
+        <option value="رعب">رعب</option>
+        <option value="رومانسية">رومانسية</option>
+        <option value="كوميدية">كوميدية</option>
+        <option value="إثارة">إثارة</option>
+      </select>
+      <textarea id="text" rows="6" placeholder="اكتب القصة هنا..."></textarea>
+      <input type="text" id="img" placeholder="رابط صورة للقصة (اختياري)">
+      <button onclick="addStory()">➕ نشر القصة</button>
+    </div>
+  </div>  <div class="section">
+    <h2>📖 كل القصص</h2>
+    <div id="stories"></div>
+  </div>  <footer>
+    جميع الحقوق محفوظة © 2025 NOUREBRAHIMNOURELDEEN
+  </footer>  <script>
+    function addStory() {
+      const title = document.getElementById("title").value;
+      const category = document.getElementById("category").value;
+      const text = document.getElementById("text").value;
+      const img = document.getElementById("img").value;
+      const container = document.getElementById("stories");
+
+      const storyBox = document.createElement("div");
+      storyBox.className = "story";
+      storyBox.innerHTML = `<h3>${title}</h3><p><strong>النوع:</strong> ${category}</p><p>${text}</p>`;
+      if (img) {
+        const image = document.createElement("img");
+        image.src = img;
+        storyBox.appendChild(image);
+      }
+
+      container.prepend(storyBox);
+
+      document.getElementById("title").value = "";
+      document.getElementById("text").value = "";
+      document.getElementById("img").value = "";
+    }
+  </script></body>
+</html>
