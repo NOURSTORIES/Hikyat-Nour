@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>السحب الكبير - اربح جوائز مذهلة!</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
       background: #f4f4f4;
       padding: 20px;
+      max-width: 700px;
+      margin: auto;
       text-align: center;
     }
     form {
       background: white;
       padding: 25px;
       border-radius: 10px;
-      max-width: 500px;
-      margin: auto;
       box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      margin-bottom: 20px;
     }
     input, button {
       width: 100%;
@@ -25,12 +26,14 @@
       font-size: 16px;
       border-radius: 6px;
       border: 1px solid #ccc;
+      box-sizing: border-box;
     }
     button {
       background-color: #007BFF;
       color: white;
       border: none;
       cursor: pointer;
+      transition: background-color 0.3s ease;
     }
     button:hover {
       background-color: #0056b3;
@@ -49,18 +52,79 @@
       background: #fff9d6;
       border: 1px solid #ffe58f;
       padding: 15px;
-      margin: 20px auto;
-      max-width: 500px;
       border-radius: 8px;
       text-align: right;
+      margin-bottom: 20px;
     }
     ul {
       text-align: right;
       margin-top: 0;
+      padding-left: 20px;
+    }
+    /* جدول عرض المشتركين */
+    #entriesSection {
+      display: none;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      margin-top: 20px;
+      text-align: center;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+      font-size: 14px;
+    }
+    th {
+      background-color: #007BFF;
+      color: white;
+    }
+    img {
+      max-width: 80px;
+      border-radius: 5px;
+    }
+    .no-entries {
+      color: #666;
+      font-size: 16px;
+      margin-top: 20px;
+    }
+    #toggleEntriesBtn {
+      background-color: #28a745;
+      margin-top: 10px;
+      padding: 10px 15px;
+      border: none;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    #toggleEntriesBtn:hover {
+      background-color: #1e7e34;
+    }
+    #clearBtn {
+      background-color: #dc3545;
+      margin-top: 10px;
+      padding: 10px 15px;
+      border: none;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    #clearBtn:hover {
+      background-color: #a71d2a;
     }
   </style>
 </head>
 <body>
+
   <h1>🎁 شارك في السحب الكبير!</h1>
   <p>حوّل <strong>100 جنيه فقط</strong> إلى رقم كاش المسابقة <strong style="color:darkred">01141310586</strong> وادخل السحب على الجوائز التالية:</p>
 
@@ -78,55 +142,65 @@
 
   <form id="lotteryForm">
     <p><strong style="font-size: 18px;">رقم كاش المسابقة: 01141310586</strong></p>
-    <input type="text" id="name" placeholder="الاسم الثلاثي" required>
-    <input type="text" id="yourCashNumber" placeholder="رقمك الكاش (اللي حولت منه)" required>
-    <input type="text" id="whatsapp" placeholder="رقم واتسابك للتواصل" required>
-    <input type="file" id="screenshot" accept="image/*" required>
+    <input type="text" id="name" placeholder="الاسم الثلاثي" required />
+    <input type="text" id="yourCashNumber" placeholder="رقمك الكاش (اللي حولت منه)" required />
+    <input type="text" id="whatsapp" placeholder="رقم واتسابك للتواصل" required />
+    <input type="file" id="screenshot" accept="image/*" required />
     <button type="submit">اشترك الآن</button>
     <p id="feedback" class=""></p>
     <p style="color: darkred; font-size: 14px;">❗ لن يتم تأكيد اشتراكك إلا بعد التأكد من التحويل.</p>
   </form>
 
+  <button id="toggleEntriesBtn">عرض المشتركين في السحب</button>
+
+  <section id="entriesSection">
+    <h2>قائمة المشتركين</h2>
+    <div id="entriesContainer"></div>
+    <button id="clearBtn">مسح جميع المشتركين</button>
+  </section>
+
   <script>
-    const form = document.getElementById("lotteryForm");
-    const feedback = document.getElementById("feedback");
+    const form = document.getElementById('lotteryForm');
+    const feedback = document.getElementById('feedback');
+    const toggleBtn = document.getElementById('toggleEntriesBtn');
+    const entriesSection = document.getElementById('entriesSection');
+    const entriesContainer = document.getElementById('entriesContainer');
+    const clearBtn = document.getElementById('clearBtn');
 
-    form.addEventListener("submit", function(e) {
+    // نموذج الاشتراك
+    form.addEventListener('submit', function(e) {
       e.preventDefault();
-      feedback.textContent = "";
-      feedback.className = "";
+      feedback.textContent = '';
+      feedback.className = '';
 
-      const name = document.getElementById("name").value.trim();
-      const yourCashNumber = document.getElementById("yourCashNumber").value.trim();
-      const whatsapp = document.getElementById("whatsapp").value.trim();
-      const screenshot = document.getElementById("screenshot").files[0];
+      const name = document.getElementById('name').value.trim();
+      const yourCashNumber = document.getElementById('yourCashNumber').value.trim();
+      const whatsapp = document.getElementById('whatsapp').value.trim();
+      const screenshot = document.getElementById('screenshot').files[0];
 
       if (name.length < 7) {
-        feedback.textContent = "❌ الاسم الثلاثي يجب أن يكون واضحًا وكاملًا.";
-        feedback.className = "error";
+        feedback.textContent = '❌ الاسم الثلاثي يجب أن يكون واضحًا وكاملًا.';
+        feedback.className = 'error';
         return;
       }
-
       if (!yourCashNumber.match(/^01[0-9]{9}$/)) {
-        feedback.textContent = "❌ رقمك الكاش غير صحيح. يجب أن يكون 11 رقم ويبدأ بـ 01.";
-        feedback.className = "error";
+        feedback.textContent = '❌ رقمك الكاش غير صحيح. يجب أن يكون 11 رقم ويبدأ بـ 01.';
+        feedback.className = 'error';
         return;
       }
-
       if (!whatsapp.match(/^01[0-9]{9}$/)) {
-        feedback.textContent = "❌ رقم واتساب غير صحيح.";
-        feedback.className = "error";
+        feedback.textContent = '❌ رقم واتساب غير صحيح.';
+        feedback.className = 'error';
         return;
       }
-
-      if (!screenshot || !screenshot.type.startsWith("image/")) {
-        feedback.textContent = "❌ يجب رفع صورة واضحة لعملية التحويل.";
-        feedback.className = "error";
+      if (!screenshot || !screenshot.type.startsWith('image/')) {
+        feedback.textContent = '❌ يجب رفع صورة واضحة لعملية التحويل.';
+        feedback.className = 'error';
         return;
       }
 
       const reader = new FileReader();
-      reader.onload = function () {
+      reader.onload = function() {
         const data = {
           name,
           yourCashNumber,
@@ -134,16 +208,82 @@
           screenshot: reader.result,
           time: new Date().toLocaleString()
         };
-
-        const current = JSON.parse(localStorage.getItem("entries") || "[]");
+        const current = JSON.parse(localStorage.getItem('entries') || '[]');
         current.push(data);
-        localStorage.setItem("entries", JSON.stringify(current));
+        localStorage.setItem('entries', JSON.stringify(current));
 
-        feedback.textContent = "✅ تم الاشتراك بنجاح! سيتم التواصل معك بعد التأكد من التحويل.";
-        feedback.className = "success";
+        feedback.textContent = '✅ تم الاشتراك بنجاح! سيتم التواصل معك بعد التأكد من التحويل.';
+        feedback.className = 'success';
         form.reset();
+        // لو القائمة مفتوحة حدثها تلقائي
+        if (entriesSection.style.display === 'block') {
+          renderEntries();
+        }
       };
       reader.readAsDataURL(screenshot);
+    });
+
+    // عرض/إخفاء قسم المشتركين
+    toggleBtn.addEventListener('click', () => {
+      if (entriesSection.style.display === 'block') {
+        entriesSection.style.display = 'none';
+        toggleBtn.textContent = 'عرض المشتركين في السحب';
+      } else {
+        renderEntries();
+        entriesSection.style.display = 'block';
+        toggleBtn.textContent = 'إخفاء المشتركين';
+      }
+    });
+
+    // عرض المشتركين في جدول
+    function renderEntries() {
+      const entries = JSON.parse(localStorage.getItem('entries') || '[]');
+      if (entries.length === 0) {
+        entriesContainer.innerHTML = '<p class="no-entries">لا يوجد مشتركين حتى الآن.</p>';
+        return;
+      }
+
+      let table = `<table>
+        <thead>
+          <tr>
+            <th>الاسم الثلاثي</th>
+            <th>رقم الكاش</th>
+            <th>واتساب</th>
+            <th>وقت التسجيل</th>
+            <th>صورة التحويل</th>
+          </tr>
+        </thead>
+        <tbody>`;
+
+      entries.forEach(entry => {
+        table += `
+          <tr>
+            <td>${escapeHTML(entry.name)}</td>
+            <td>${escapeHTML(entry.yourCashNumber)}</td>
+            <td>${escapeHTML(entry.whatsapp)}</td>
+            <td>${escapeHTML(entry.time)}</td>
+            <td><img src="${entry.screenshot}" alt="صورة التحويل" /></td>
+          </tr>
+        `;
+      });
+
+      table += '</tbody></table>';
+      entriesContainer.innerHTML = table;
+    }
+
+    // تنظيف نصوص HTML لحماية من حقن أكواد
+    function escapeHTML(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // مسح جميع المشتركين
+    clearBtn.addEventListener('click', () => {
+      if (confirm('هل أنت متأكد أنك تريد مسح جميع المشتركين؟ هذا الإجراء لا يمكن التراجع عنه.')) {
+        localStorage.removeItem('entries');
+        renderEntries();
+      }
     });
   </script>
 </body>
