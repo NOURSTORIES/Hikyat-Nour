@@ -1,191 +1,124 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<!DOCTYPE html><html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NOUREBRAHIM.COM</title>
-  <meta name="description" content="موقع القصص والروايات الواقعية والخيالية من تصميم NOUR E NOURELDEEN">
+  <title>حكايات نور - NOUREBRAHIMNOURELDEEN</title>
   <style>
     body {
-      background-color: #fdfdfd;
       font-family: 'Cairo', sans-serif;
-      color: #1e1e1e;
+      background: linear-gradient(to bottom, #fdf6f0, #e0eaff);
+      color: #1c1c1c;
       margin: 0;
-      padding: 0 15px;
+      padding: 0;
+      line-height: 1.8;
     }
     header {
-      background-color: #3f3f3f;
-      color: white;
-      padding: 20px;
+      background: linear-gradient(to right, #b388eb, #8093f1);
+      padding: 40px;
       text-align: center;
+      color: white;
     }
-    h1, h2, h3, h4 {
+    header h1 {
+      margin: 0;
+      font-size: 36px;
+    }
+    .section {
+      padding: 40px 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+    h2 {
       color: #6a00ff;
+      border-bottom: 2px solid #d1c4e9;
+      padding-bottom: 5px;
     }
-    section {
-      margin: 40px 0;
+    .form-section {
+      background-color: #ffffffdd;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    .story-type {
-      background: #f3f4f6;
+    input, textarea, select, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 8px;
       border: 1px solid #ccc;
-      padding: 15px;
-      border-radius: 10px;
-      margin: 15px 0;
+      font-size: 16px;
+    }
+    button {
+      background-color: #6a00ff;
+      color: white;
+      font-weight: bold;
       cursor: pointer;
     }
-    .story-type:hover {
-      background-color: #e0e7ff;
-    }
-    .story-content {
-      display: none;
-      padding: 20px;
+    .story {
       background-color: #fff;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-    }
-    .image-box img {
-      width: 100%;
-      max-width: 600px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-    }
-    .login-section, .add-form {
-      max-width: 500px;
-      margin: auto;
       padding: 20px;
+      margin-top: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
-    .add-form textarea, .add-form input {
-      width: 100%;
-      margin-top: 10px;
-      padding: 10px;
+    .story img {
+      max-width: 100%;
+      margin-top: 15px;
+      border-radius: 8px;
     }
     footer {
-      margin-top: 60px;
-      padding: 30px;
-      background-color: #1f1f1f;
+      background-color: #6a00ff;
       color: white;
       text-align: center;
-    }
-    .info-block {
-      background: #f8f8f8;
-      padding: 20px;
-      margin: 20px 0;
-      border-left: 4px solid #6a00ff;
+      padding: 30px;
+      margin-top: 60px;
     }
   </style>
-  <script>
-    function login(event) {
-      event.preventDefault();
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      if (email === "admin" && password === "admin") {
-        document.getElementById("login-section").style.display = "none";
-        document.getElementById("main-content").style.display = "block";
-      } else {
-        alert("خطأ في تسجيل الدخول");
-      }
-    }
-
-    function toggleStory(id) {
-      const element = document.getElementById(id);
-      element.style.display = element.style.display === "block" ? "none" : "block";
-    }
-
-    function addStory(event, type) {
-      event.preventDefault();
-      const title = document.getElementById(`${type}-title`).value;
-      const content = document.getElementById(`${type}-text`).value;
-      const storyList = document.getElementById(`${type}-list`);
-      if (title && content) {
-        const div = document.createElement("div");
-        div.innerHTML = `<h4>${title}</h4><p>${content}</p>`;
-        storyList.appendChild(div);
-        document.getElementById(`${type}-title`).value = "";
-        document.getElementById(`${type}-text`).value = "";
-      }
-    }
-  </script>
 </head>
 <body>
   <header>
-    <h1>موقع القصص والروايات</h1>
-    <p>إعداد وتقديم: <strong>NOUR E NOURELDEEN</strong></p>
-  </header>
+    <h1>حكايات نور - NOUREBRAHIMNOURELDEEN</h1>
+    <p>قصص رعب، كوميديا، رومانسية، وأكثر... من خيال نور</p>
+  </header>  <div class="section">
+    <h2>✍️ أضف قصة جديدة</h2>
+    <div class="form-section">
+      <input type="text" id="title" placeholder="عنوان القصة">
+      <select id="category">
+        <option value="رعب">رعب</option>
+        <option value="رومانسية">رومانسية</option>
+        <option value="كوميدية">كوميدية</option>
+        <option value="إثارة">إثارة</option>
+      </select>
+      <textarea id="text" rows="6" placeholder="اكتب القصة هنا..."></textarea>
+      <input type="text" id="img" placeholder="رابط صورة للقصة (اختياري)">
+      <button onclick="addStory()">➕ نشر القصة</button>
+    </div>
+  </div>  <div class="section">
+    <h2>📖 كل القصص</h2>
+    <div id="stories"></div>
+  </div>  <footer>
+    جميع الحقوق محفوظة © 2025 NOUREBRAHIMNOURELDEEN
+  </footer>  <script>
+    function addStory() {
+      const title = document.getElementById("title").value;
+      const category = document.getElementById("category").value;
+      const text = document.getElementById("text").value;
+      const img = document.getElementById("img").value;
+      const container = document.getElementById("stories");
 
-  <div id="login-section" class="login-section">
-    <h2>تسجيل الدخول</h2>
-    <form onsubmit="login(event)">
-      <input type="text" id="email" placeholder="البريد الإلكتروني" required>
-      <input type="password" id="password" placeholder="كلمة المرور" required>
-      <input type="submit" value="دخول">
-    </form>
-  </div>
+      const storyBox = document.createElement("div");
+      storyBox.className = "story";
+      storyBox.innerHTML = `<h3>${title}</h3><p><strong>النوع:</strong> ${category}</p><p>${text}</p>`;
+      if (img) {
+        const image = document.createElement("img");
+        image.src = img;
+        storyBox.appendChild(image);
+      }
 
-  <div id="main-content" style="display:none;">
-    <section class="info-block">
-      <h3>عن الموقع</h3>
-      <p>يضم هذا الموقع مئات القصص المتنوعة: الرعب، الرومانسية، الكوميدية، والإثارة. القصص حقيقية وخيالية، مكتوبة بأسلوب مشوّق وباللغة العربية الفصحى واللهجة العامية أحيانًا.</p>
-    </section>
+      container.prepend(storyBox);
 
-    <section class="info-block">
-      <h3>كيف تستخدم الموقع؟</h3>
-      <p>اضغط على نوع القصة الذي تفضله، واقرأ القصص المتاحة، أو أضف قصتك الخاصة من خلال النموذج المخصص.</p>
-    </section>
-
-    <section>
-      <h3>📚 الأنواع</h3>
-
-      <div class="story-type" onclick="toggleStory('horror')">قصص رعب</div>
-      <div id="horror" class="story-content">
-        <div class="image-box">
-          <img src="https://i.imgur.com/Xbyyz0U.jpg" alt="مشهد رعب">
-          <img src="https://i.imgur.com/BqGSGJZ.jpg" alt="شيخ والجن">
-        </div>
-        <h4>قصة: الجن العاشق</h4>
-        <p>دعاء فتاة تعرضت لحالة لبس غريبة، يظهر فيها جن يدعى راجح...</p>
-        <form class="add-form" onsubmit="addStory(event, 'horror')">
-          <input type="text" id="horror-title" placeholder="عنوان القصة" required>
-          <textarea id="horror-text" rows="4" placeholder="اكتب القصة هنا..." required></textarea>
-          <button type="submit">أضف القصة</button>
-        </form>
-        <div id="horror-list"></div>
-      </div>
-
-      <div class="story-type" onclick="toggleStory('romance')">قصص رومانسية</div>
-      <div id="romance" class="story-content">
-        <form class="add-form" onsubmit="addStory(event, 'romance')">
-          <input type="text" id="romance-title" placeholder="عنوان القصة" required>
-          <textarea id="romance-text" rows="4" placeholder="اكتب القصة هنا..." required></textarea>
-          <button type="submit">أضف القصة</button>
-        </form>
-        <div id="romance-list"></div>
-      </div>
-
-      <div class="story-type" onclick="toggleStory('comedy')">قصص كوميدية</div>
-      <div id="comedy" class="story-content">
-        <form class="add-form" onsubmit="addStory(event, 'comedy')">
-          <input type="text" id="comedy-title" placeholder="عنوان القصة" required>
-          <textarea id="comedy-text" rows="4" placeholder="اكتب القصة هنا..." required></textarea>
-          <button type="submit">أضف القصة</button>
-        </form>
-        <div id="comedy-list"></div>
-      </div>
-
-      <div class="story-type" onclick="toggleStory('thriller')">قصص إثارة وتشويق</div>
-      <div id="thriller" class="story-content">
-        <form class="add-form" onsubmit="addStory(event, 'thriller')">
-          <input type="text" id="thriller-title" placeholder="عنوان القصة" required>
-          <textarea id="thriller-text" rows="4" placeholder="اكتب القصة هنا..." required></textarea>
-          <button type="submit">أضف القصة</button>
-        </form>
-        <div id="thriller-list"></div>
-      </div>
-    </section>
-
-    <footer>
-      تم الإنشاء بواسطة NOUR E NOURELDEEN © 2025<br>
-      جميع الحقوق محفوظة.
-    </footer>
-  </div>
-</body>
+      document.getElementById("title").value = "";
+      document.getElementById("text").value = "";
+      document.getElementById("img").value = "";
+    }
+  </script></body>
 </html>
