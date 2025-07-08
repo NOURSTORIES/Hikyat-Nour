@@ -62,7 +62,7 @@
 </head>
 <body>
   <h1>🎁 شارك في السحب الكبير!</h1>
-  <p>حوّل <strong>100 جنيه فقط</strong> إلى الرقم <strong style="color:darkred">01141310586</strong> وادخل السحب على الجوائز التالية:</p>
+  <p>حوّل <strong>100 جنيه فقط</strong> إلى رقم كاش المسابقة <strong style="color:darkred">01141310586</strong> وادخل السحب على الجوائز التالية:</p>
 
   <div class="notice">
     <h3>📅 موعد السحب القادم:</h3>
@@ -77,11 +77,14 @@
   </div>
 
   <form id="lotteryForm">
+    <p><strong style="font-size: 18px;">رقم كاش المسابقة: 01141310586</strong></p>
     <input type="text" id="name" placeholder="الاسم الثلاثي" required>
-    <input type="text" id="cashNumber" placeholder="رقم التحويل إليه (يجب أن يكون 01141310586)" required>
+    <input type="text" id="yourCashNumber" placeholder="رقمك الكاش (اللي حولت منه)" required>
+    <input type="text" id="whatsapp" placeholder="رقم واتسابك للتواصل" required>
     <input type="file" id="screenshot" accept="image/*" required>
     <button type="submit">اشترك الآن</button>
     <p id="feedback" class=""></p>
+    <p style="color: darkred; font-size: 14px;">❗ لن يتم تأكيد اشتراكك إلا بعد التأكد من التحويل.</p>
   </form>
 
   <script>
@@ -94,7 +97,8 @@
       feedback.className = "";
 
       const name = document.getElementById("name").value.trim();
-      const cashNumber = document.getElementById("cashNumber").value.trim();
+      const yourCashNumber = document.getElementById("yourCashNumber").value.trim();
+      const whatsapp = document.getElementById("whatsapp").value.trim();
       const screenshot = document.getElementById("screenshot").files[0];
 
       if (name.length < 7) {
@@ -103,8 +107,14 @@
         return;
       }
 
-      if (cashNumber !== "01141310586") {
-        feedback.textContent = "❌ رقم التحويل غير صحيح. يجب أن يكون 01141310586 فقط.";
+      if (!yourCashNumber.match(/^01[0-9]{9}$/)) {
+        feedback.textContent = "❌ رقمك الكاش غير صحيح. يجب أن يكون 11 رقم ويبدأ بـ 01.";
+        feedback.className = "error";
+        return;
+      }
+
+      if (!whatsapp.match(/^01[0-9]{9}$/)) {
+        feedback.textContent = "❌ رقم واتساب غير صحيح.";
         feedback.className = "error";
         return;
       }
@@ -119,7 +129,8 @@
       reader.onload = function () {
         const data = {
           name,
-          cashNumber,
+          yourCashNumber,
+          whatsapp,
           screenshot: reader.result,
           time: new Date().toLocaleString()
         };
@@ -128,7 +139,7 @@
         current.push(data);
         localStorage.setItem("entries", JSON.stringify(current));
 
-        feedback.textContent = "✅ تم الاشتراك بنجاح! سيتم التواصل مع الفائزين بعد السحب.";
+        feedback.textContent = "✅ تم الاشتراك بنجاح! سيتم التواصل معك بعد التأكد من التحويل.";
         feedback.className = "success";
         form.reset();
       };
